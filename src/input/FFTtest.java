@@ -5,6 +5,7 @@ import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.util.Arrays;
 
 import fft.AppliedFFT;
 import fft.XYTable;
@@ -18,27 +19,30 @@ public class FFTtest {
 	public static void test1() {
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			String path = "sounds/440.wav";
+			String path = "sounds/Estring.wav";
 			File wav = new File(path);
 			BufferedInputStream in = new BufferedInputStream(new FileInputStream(wav));
-			int read;
-			byte[] buffer = new byte[1411000/8];
+//			int read;
+			byte[] buffer = new byte[44100*2];
+			in.read(buffer);
+			in.read(buffer);
+			
+			byte[] sound = new byte[buffer.length/2];
+			for(int i = 0 ; i < sound.length ; i++)
+				sound[i] = buffer[2*i+1];
+//			in.read(buffer);
+//			in.read(buffer);
+			XYTable signal = new XYTable(sound);
+			signal.Chart(100000);
 //			while ((read = in.read(buffer)) > 0) {
 //				out.write(buffer, 0, read);
 //			}
-			read = in.read(buffer);
-			read = in.read(buffer);
-			read = in.read(buffer);
-			read = in.read(buffer);
-			out.write(buffer,0,read);
 			System.out.println("Finished reading");
-			out.flush();
+//			out.flush();
 			in.close();
-			byte[] audioBytes = out.toByteArray();
-			XYTable fft = AppliedFFT.AmplitudeFrequenciesFFT(audioBytes, 1411000/8);
-			fft.Chart();
-			XYTable signal = new XYTable(buffer);
-			signal.Chart();
+//			byte[] audioBytes = out.toByteArray();
+			XYTable fft = AppliedFFT.AmplitudeFrequenciesFFT(sound, 24000*2);
+			fft.Chart(500);
 			System.out.println("Finished writing");
 		} catch (IOException ioe) {
 			ioe.printStackTrace();
@@ -59,7 +63,7 @@ public class FFTtest {
 			y[i] += A2 * Math.sin(2 * Math.PI * f2 * i * samplePeriod);
 		}
 		XYTable fft = AppliedFFT.AmplitudeFrequenciesFFT(y, sampleFreq);
-		fft.Chart();
+		fft.Chart(20);
 		
 	}
 }

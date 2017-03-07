@@ -43,13 +43,14 @@ public class XYTable {
 		}
 	}
 
-	public void Chart() {
+	public void Chart(double max) {
 		ApplicationFrame frame = new ApplicationFrame("Chart");
 		XYSeries series = new XYSeries("data");
 		for (int i = 0; i < N; i++)
-			series.add(x[i], y[i]);
+			if(x[i] <= max)
+				series.add(x[i], y[i]);
 		XYSeriesCollection collection = new XYSeriesCollection(series);
-		JFreeChart chart = ChartFactory.createXYAreaChart("Chart", "x", "y", collection);
+		JFreeChart chart = ChartFactory.createXYLineChart("Chart", "x", "y", collection);
 		ChartPanel chartPanel = new ChartPanel(chart);
 		frame.setContentPane(chartPanel);
 		frame.pack();

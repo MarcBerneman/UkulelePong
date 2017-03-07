@@ -33,7 +33,6 @@ public class AppliedFFT {
 
 		int N = F.length;
 		double frequencyStep = sampleFreq / (2 * N);
-		System.out.println(frequencyStep);
 
 		double[] freq = new double[N];
 		for (int i = 0; i < N; i++)
