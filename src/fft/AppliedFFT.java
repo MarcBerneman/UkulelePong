@@ -27,4 +27,32 @@ public class AppliedFFT {
 			output[i] *= 2 / fft.norm_factor;
 		return output;
 	}
+
+	public static XYTable AmplitudeFrequenciesFFT(double[] signal, double sampleFreq) {
+		double[] F = AmplitudeFFT(signal);
+
+		int N = F.length;
+		double frequencyStep = sampleFreq / (2 * N);
+		System.out.println(frequencyStep);
+
+		double[] freq = new double[N];
+		for (int i = 0; i < N; i++)
+			freq[i] = i * frequencyStep;
+
+		return new XYTable(freq, F);
+	}
+
+	public static XYTable AmplitudeFrequenciesFFT(byte[] signal, double sampleFreq) {
+		double[] F = AmplitudeFFT(signal);
+
+		int N = F.length;
+		double frequencyStep = sampleFreq / (2 * N);
+		System.out.println(frequencyStep);
+
+		double[] freq = new double[N];
+		for (int i = 0; i < N; i++)
+			freq[i] = i * frequencyStep;
+
+		return new XYTable(freq, F);
+	}
 }
