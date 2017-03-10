@@ -13,6 +13,13 @@ public class Complex1D
 */
     public double y[];
     
+	public double[] absoluteSquared() {
+		double[] absolutes = new double[x.length];
+		for (int i = 0; i < x.length; i++)
+			absolutes[i] = (x[i] * x[i] + y[i] * y[i]);
+		return absolutes;
+	}
+	
 	public double[] absolute() {
 		double[] absolutes = new double[x.length];
 		for (int i = 0; i < x.length; i++)

@@ -19,7 +19,7 @@ public class FFTtest {
 	public static void test1() {
 		try {
 			ByteArrayOutputStream out = new ByteArrayOutputStream();
-			String path = "sounds/Estring.wav";
+			String path = "sounds/1.wav";
 			File wav = new File(path);
 			BufferedInputStream in = new BufferedInputStream(new FileInputStream(wav));
 //			int read;
@@ -41,7 +41,7 @@ public class FFTtest {
 //			out.flush();
 			in.close();
 //			byte[] audioBytes = out.toByteArray();
-			XYTable fft = AppliedFFT.AmplitudeFrequenciesFFT(sound, 24000*2);
+			XYTable fft = AppliedFFT.AmplitudeFrequenciesFFT(sound, 44100*2);
 			fft.Chart(500);
 			System.out.println("Finished writing");
 		} catch (IOException ioe) {
@@ -50,9 +50,9 @@ public class FFTtest {
 	}
 	
 	public static void test2() {
-		double sampleFreq = 16; // = 2 * maxFreq
+		double sampleFreq = 16;
 		double samplePeriod = 1/sampleFreq;
-		int N = 50;
+		int N = 500;
 		int A1 = 5;
 		int f1 = 1;
 		int A2 = 3;
