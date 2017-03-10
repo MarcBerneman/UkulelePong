@@ -2,6 +2,8 @@ package fft;
 
 import java.util.List;
 
+import charts.XYTable;
+
 public class AppliedFFT {
 	public static double[] AmplitudeFFT(double[] signal) {
 		int N = signal.length;
