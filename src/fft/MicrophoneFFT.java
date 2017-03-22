@@ -7,18 +7,17 @@ import javax.sound.sampled.DataLine;
 import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.TargetDataLine;
 
-import charts.XYLineChart;
 import charts.XYTable;
 
 public class MicrophoneFFT {
-	private  double dominantFreq = 0;;
+	private  double dominantFreq = 0;
 	public boolean newMeasurement = false;
 	
 	private boolean using_data = false;
-	private XYLineChart chart;
+	//private XYLineChart chart;
 
-	public MicrophoneFFT(int sampleRate, int maxFreq, double soundTreshhold, int measurementRate) {
-		chart = new XYLineChart(maxFreq);
+	public MicrophoneFFT(int sampleRate, int maxFreq, int minFreq, double soundTreshhold, int measurementRate) {
+		//chart = new XYLineChart(maxFreq);
 
 		ArrayList<Byte> microphoneInput = new ArrayList<Byte>(sampleRate / measurementRate);
 		try {
@@ -61,9 +60,9 @@ public class MicrophoneFFT {
 						if (microphoneInput.size() == sampleRate) {
 							using_data = true;
 							XYTable Spectrum = AppliedFFT.AmplitudeFrequenciesFFT(microphoneInput, sampleRate);
-							chart.setData(Spectrum);
+							//chart.setData(Spectrum);
 							microphoneInput.clear();
-							dominantFreq = Spectrum.dominantX(maxFreq, soundTreshhold);
+							dominantFreq = Spectrum.dominantX(maxFreq,minFreq,soundTreshhold);
 							newMeasurement = true;
 						}
 						using_data = false;

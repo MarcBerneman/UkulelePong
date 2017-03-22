@@ -47,9 +47,9 @@ public class XYTable {
 		return N;
 	}
 	
-	public double dominantX(double max_x, double treshhold) {
+	public double dominantX(double max_x, double min_x, double treshhold) {
 		for(int i = 0 ; i < N ; i++)
-			if(x[i] < max_x && y[i] > treshhold)
+			if(x[i] < max_x && x[i] > min_x && y[i] > treshhold)
 				return x[i];
 			else if(x[i] >= max_x)
 				return 0;
