@@ -65,6 +65,11 @@ public class MicrophoneFFT {
 							dominantFreq = Spectrum.dominantX(maxFreq,minFreq,soundTreshhold);
 							newMeasurement = true;
 						}
+						try {
+							Thread.sleep(1000/measurementRate);
+						} catch (InterruptedException e) {
+							e.printStackTrace();
+						}
 						using_data = false;
 					}
 				}

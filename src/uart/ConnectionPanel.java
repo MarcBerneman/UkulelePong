@@ -15,17 +15,20 @@ import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
 import game.GameMain;
+import game.Simon;
 
 @SuppressWarnings("serial")
 public class ConnectionPanel extends JPanel implements ActionListener {
+	Simon simon = new Simon(4, this);
+	
 	SerialPort port;
 	PrintWriter output;
 	JButton connectButton = new JButton("Connect");
 	JTextField dutycycleField = new JTextField(Integer.toString(GameMain.dutycyle));
 	JButton sendDutycycle = new JButton("Dutycyle");
+	JButton newGame = new JButton("New Game");
 
 	public ConnectionPanel() {
-		this.setLayout(null);
 		JComboBox<String> portList = new JComboBox<String>();
 		portList.setBounds(25, 25, 100, 25);
 		add(portList);
@@ -44,6 +47,12 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 		sendDutycycle.setEnabled(true);
 		sendDutycycle.setFocusable(true);
 		add(sendDutycycle);
+		newGame.setFont(new Font("Arial", Font.BOLD, 10));
+		newGame.addActionListener(this);
+		newGame.setBounds(275, 75 + 50 * 1, 50, 25);
+		newGame.setEnabled(true);
+		newGame.setFocusable(true);
+		add(newGame);
 
 		connectButton.addActionListener(new ActionListener() {
 			@Override
@@ -79,7 +88,7 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 								if (data != 14) {
 									sb.append(data);
 								} else {
-									System.out.println(sb.toString());
+									//System.out.println(sb.toString());
 									sb.setLength(0);
 								}
 							}
@@ -108,8 +117,16 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 
 	@Override
 	public void actionPerformed(ActionEvent e) {
-		if (e.getSource().equals(sendDutycycle))
-			GameMain.dutycyle = Integer.parseInt(dutycycleField.getText());
-
+		if (e.getSource().equals(sendDutycycle)) {
+			sendData("D" + dutycycleField.getText());
+			System.out.println("D" + dutycycleField.getText());
+			//GameMain.dutycyle = Integer.parseInt(dutycycleField.getText());
+		}
+		else if(e.getSource().equals(newGame))
+			try {
+				simon.game();
+			} catch (InterruptedException e1) {
+				e1.printStackTrace();
+			}
 	}
 }
