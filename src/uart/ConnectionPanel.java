@@ -14,7 +14,6 @@ import com.fazecast.jSerialComm.SerialPort;
 import com.fazecast.jSerialComm.SerialPortDataListener;
 import com.fazecast.jSerialComm.SerialPortEvent;
 
-import game.GameMain;
 import game.Simon;
 
 @SuppressWarnings("serial")
@@ -24,7 +23,7 @@ public class ConnectionPanel extends JPanel implements ActionListener {
 	SerialPort port;
 	PrintWriter output;
 	JButton connectButton = new JButton("Connect");
-	JTextField dutycycleField = new JTextField(Integer.toString(GameMain.dutycyle));
+	JTextField dutycycleField = new JTextField("0");
 	JButton sendDutycycle = new JButton("Dutycyle");
 	JButton newGame = new JButton("New Game");
 

@@ -20,11 +20,14 @@ public class Simon {
 
 	public void game() throws InterruptedException {
 		boolean lost = false;
+		panel.sendData("D150");
+		Thread.sleep(500);
+		indicator("R");
 		while (sequentie.size() <= GameMain.NR_LEDs - NR_INDICATOR_LEDs) {
 			int newHeight = randomHeight();
 			System.out.println("Next color: " + newHeight);
 			sequentie.add(newHeight);
-			//playLinearSequence();
+			// playLinearSequence();
 			playPositionSequence();
 			for (int targetHeight : sequentie)
 				if (!turn(targetHeight)) {
@@ -39,6 +42,7 @@ public class Simon {
 		}
 	}
 
+	@SuppressWarnings("unused")
 	private void playLinearSequence() throws InterruptedException {
 		indicator("R");
 		for (int i = 0; i < sequentie.size(); i++) {
@@ -67,13 +71,13 @@ public class Simon {
 		Thread.sleep(2000);
 		indicator("R");
 	}
-	
+
 	private void playPositionSequence() throws InterruptedException {
-		int[] lightPositions = {35,40,46,55};
+		int[] lightPositions = { 35, 40, 46, 55 };
 		indicator("R");
 		for (int color : sequentie) {
 			String c = "";
-			switch(color) {
+			switch (color) {
 			case 1:
 				c = "R";
 				break;
@@ -89,11 +93,21 @@ public class Simon {
 			default:
 				break;
 			}
-			panel.sendData("L" + lightPositions[color - 1] + c);
-			Thread.sleep(1000);
+			int brandende_leds = 3;
+			for (int i = -brandende_leds / 2; i <= brandende_leds / 2; i++) {
+				panel.sendData("L" + (lightPositions[color - 1] + i) + c);
+				Thread.sleep(100);
+			}
+			Thread.sleep(300);
+			for (int i = -brandende_leds / 2; i <= brandende_leds / 2; i++) {
+				panel.sendData("L" + (lightPositions[color - 1] + i) + "O");
+				Thread.sleep(100);
+			}
+			Thread.sleep(100);
 		}
-		Thread.sleep(2000);
+		Thread.sleep(1000);
 		panel.sendData("C0");
+		Thread.sleep(500);
 		indicator("R");
 	}
 
@@ -117,6 +131,7 @@ public class Simon {
 					testing_tone = true;
 					current_tone = tone;
 					panel.sendData("D" + (100 + current_tone * 20));
+					Thread.sleep(100);
 					System.out.println(current_tone);
 				}
 			} else {
@@ -136,12 +151,14 @@ public class Simon {
 		return tone == target_tone;
 	}
 
-	private void lose() {
+	private void lose() throws InterruptedException {
 		if (sequentie.size() < GameMain.NR_LEDs - NR_INDICATOR_LEDs)
 			System.out.println("You remembered " + (sequentie.size() - 1) + " colors.");
 		else
 			System.out.println("You won!");
 		sequentie.clear();
+		panel.sendData("D0");
+		Thread.sleep(100);
 		panel.sendData("C1");
 	}
 
@@ -152,7 +169,7 @@ public class Simon {
 				return i + 1;
 		return 0;
 	}
-	
+
 	private void indicator(String color) throws InterruptedException {
 		panel.sendData("I" + (NR_INDICATOR_LEDs - 1) + color);
 		Thread.sleep(100);
